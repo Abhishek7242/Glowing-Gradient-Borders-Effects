@@ -1,0 +1,104 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #111; /* Darker background for contrast */
+}
+
+.main-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1000px; /* Adding perspective for depth */
+}
+
+.container {
+  position: relative;
+  width: 400px;
+  height: 300px;
+  transform-style: preserve-3d;
+  border-radius: 20px;
+}
+
+/* Outer glowing effect */
+.container.outer::before,
+.container.outer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  background: repeating-conic-gradient(from var(--a), #ff0, #f00, #0f0, #00f, #0ff, #f0f);
+  animation: rotate 5s linear infinite;
+}
+
+.container.outer::after {
+  filter: blur(50px); /* Blurred outer effect */
+  opacity: 0.8;
+}
+
+/* Inner glowing effect */
+.container.inner::before,
+.container.inner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  background: repeating-conic-gradient(from var(--a), #ff0, #0f0, #f00, #00f, #0ff);
+  animation: rotateReverse 6s linear infinite;
+}
+
+.container.inner::after {
+  filter: blur(30px); /* Blurred inner effect */
+  opacity: 0.7;
+}
+
+/* Inner content area */
+.container span {
+  position: absolute;
+  inset: 4px;
+  background: #222;
+  border-radius: 16px;
+  z-index: 1;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+/* Adding subtle 3D rotation */
+.container.inner {
+  position: absolute;
+  top: 75px;
+  left: 50%;
+  transform: translateX(-50%) rotateX(15deg) rotateY(15deg); /* 3D Tilt */
+  width: 500px;
+  height: 150px;
+}
+
+@property --a {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes rotate {
+  0% {
+    --a: 0deg;
+  }
+  100% {
+    --a: 360deg;
+  }
+}
+
+@keyframes rotateReverse {
+  0% {
+    --a: 360deg;
+  }
+  100% {
+    --a: 0deg;
+  }
+}
